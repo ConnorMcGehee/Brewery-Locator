@@ -9629,6 +9629,7 @@
   var onMapLoad = () => {
     progressBar.style.display = "none";
     mapElement.style.border = "0.15rem white solid";
+    map.invalidateSize();
   };
   var throwError = (err) => {
     console.log(err);

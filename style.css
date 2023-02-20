@@ -12,6 +12,9 @@ h1 {
 main {
     max-width: 60rem;
     margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #search {
@@ -108,6 +111,10 @@ button:active {
     background-color: rgb(182, 182, 207);
 }
 
+#map-container {
+    width: 95vw;
+}
+
 #map {
     height: 30rem;
     max-width: 60rem;
@@ -122,11 +129,12 @@ progress {
 }
 
 footer {
-    position: absolute;
-    bottom: 0;
+    display: flex;
+    flex-direction: column;
     text-align: left;
+    justify-self: flex-end;
+    align-self: flex-start;
     font-size: 0.5rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    line-height: 1rem;
 }

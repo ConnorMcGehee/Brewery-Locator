@@ -102,6 +102,7 @@ const updateElement = (data) => {
 const onMapLoad = () => {
     progressBar.style.display = "none";
     mapElement.style.border = "0.15rem white solid";
+    map.invalidateSize();
 };
 const throwError = (err) => {
     console.log(err);
