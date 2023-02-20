@@ -25,17 +25,23 @@ const crosshairsIcon = $("crosshairs-icon");
 const breweryList = $("brewery-list");
 const formattedLocation = $("formatted-location");
 const progressBar = $("progress");
+const mapElement = $("map");
 crosshairsIcon.addEventListener("click", () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
             progressBar.style.display = "block";
             findBreweries(`${position.coords.latitude} ${position.coords.longitude}`);
-        }, (err) => throwError(err));
+        }, function (err) {
+            formattedLocation.innerHTML = "Error retrieving location data.";
+            throwError(err);
+        });
     }
 });
 locate.addEventListener("click", (e) => {
     e.preventDefault();
-    findBreweries(input.value);
+    if (input.value) {
+        findBreweries(input.value);
+    }
 });
 window.addEventListener("load", () => {
     if (navigator.geolocation) {
@@ -61,9 +67,11 @@ const findBreweries = (location) => {
     fetch(`https://geocode.maps.co/search?q=${location.replaceAll(' ', '+')}`)
         .then((res) => res.json())
         .then((data) => {
-        input.value = data[0].display_name;
-        formattedLocation.innerHTML = "Showing breweries near " + data[0].display_name;
-        findBreweriesLatLong(data[0].lat, data[0].lon);
+        if (data[0]) {
+            input.value = data[0].display_name;
+            formattedLocation.innerHTML = "Showing breweries near " + data[0].display_name;
+            findBreweriesLatLong(data[0].lat, data[0].lon);
+        }
     })
         .catch((err) => {
         formattedLocation.innerHTML = err;
@@ -93,6 +101,7 @@ const updateElement = (data) => {
 };
 const onMapLoad = () => {
     progressBar.style.display = "none";
+    mapElement.style.border = "0.15rem white solid";
 };
 const throwError = (err) => {
     console.log(err);
