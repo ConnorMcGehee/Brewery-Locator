@@ -1,23 +1,30 @@
 body {
     margin: 1rem;
+    font-family: 'Fjalla One', sans-serif;
+    text-align: center;
+    background-color: rgb(58, 58, 142);
 }
 
-#crosshairs-icon {
+#search {
+    position: relative;
+    display: inline-block;
+  }
+  #crosshairs-icon {
     position: absolute;
-    left: 16rem;
-    top: 0.45rem;
+    left: 16.2rem;
+    top: 0.5rem;
     cursor: pointer;
 }
 
 @media (hover: hover) {
     #crosshairs-icon:hover {
-        color:rgb(98, 88, 139)
+        color: rgb(98, 88, 139)
     }
 }
 
 #location-container {
-    position: relative;
-    align-items: center;
+    margin: auto;
+    text-align: center;
     color: rgb(55, 55, 55);
 }
 
@@ -32,24 +39,44 @@ input {
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
-  appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 button {
+    color: black;
     border: none;
     border-radius: 0.25rem;
     background-color: white;
-    padding: 0.25rem;
+    padding: 0.4rem;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */     
+}
+
+@media (hover: hover) {
+    button:hover {
+        background-color: rgb(225, 225, 225);
+    }
+}
+
+button:active {
+    background-color: rgb(207, 207, 207);
 }
 
 #map {
     height: 30rem;
     max-width: 60rem;
+    margin: auto;
+}
+progress {
+    margin-top: 1rem;
+    display: none;
 }

@@ -24,9 +24,11 @@ if (!(input instanceof HTMLInputElement)) {
 const crosshairsIcon = $("crosshairs-icon");
 const breweryList = $("brewery-list");
 const formattedLocation = $("formatted-location");
+const progressBar = $("progress");
 crosshairsIcon.addEventListener("click", () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
+            progressBar.style.display = "block";
             findBreweries(`${position.coords.latitude} ${position.coords.longitude}`);
         }, (err) => throwError(err));
     }
@@ -38,34 +40,34 @@ locate.addEventListener("click", (e) => {
 window.addEventListener("load", () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
+            progressBar.style.display = "block";
             findBreweries(`${position.coords.latitude} ${position.coords.longitude}`);
         }, (err) => throwError(err));
     }
 });
 let map;
 const findBreweriesLatLong = (lat, long) => {
-    console.log("ok!!");
     fetch(`https://api.openbrewerydb.org/breweries?by_dist=${lat},${long}&per_page=10`)
         .then((res) => res.json())
         .then((data) => {
         updateElement(data);
     })
         .catch((err) => {
-        console.log(err);
+        formattedLocation.innerHTML = err;
+        progressBar.style.display = "none";
     });
 };
 const findBreweries = (location) => {
-    console.log("ok!!");
     fetch(`https://geocode.maps.co/search?q=${location.replaceAll(' ', '+')}`)
         .then((res) => res.json())
         .then((data) => {
-        console.log(data);
         input.value = data[0].display_name;
         formattedLocation.innerHTML = "Showing breweries near " + data[0].display_name;
         findBreweriesLatLong(data[0].lat, data[0].lon);
     })
         .catch((err) => {
-        console.log(err);
+        formattedLocation.innerHTML = err;
+        progressBar.style.display = "none";
     });
 };
 const updateElement = (data) => {
@@ -75,7 +77,9 @@ const updateElement = (data) => {
     }
     let lat = data[0].latitude;
     let long = data[0].longitude;
-    map = L.map('map').setView([lat, long], 13);
+    map = L.map('map');
+    map.addEventListener("load", onMapLoad);
+    map.setView([lat, long], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -86,6 +90,9 @@ const updateElement = (data) => {
         marker.bindPopup(brewery.name);
         marker.addTo(map);
     }
+};
+const onMapLoad = () => {
+    progressBar.style.display = "none";
 };
 const throwError = (err) => {
     console.log(err);
