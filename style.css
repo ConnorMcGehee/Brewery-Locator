@@ -82,6 +82,7 @@ button {
     border-radius: 0.25rem;
     background-color: rgb(231, 231, 255);
     padding: 0.4rem;
+    cursor: pointer;
     -webkit-user-select: none;
     /* Chrome all / Safari all */
     -moz-user-select: none;
@@ -116,7 +117,7 @@ button:active {
 }
 
 #map {
-    height: 30rem;
+    height: 29rem;
     max-width: 60rem;
     margin: auto;
     border-radius: 0.5rem;
