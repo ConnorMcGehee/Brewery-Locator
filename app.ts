@@ -26,6 +26,7 @@ const input = $("location");
 if (!(input instanceof HTMLInputElement)) {
     throw new Error("Not an instance of HTMLInputElement.");
 }
+const fingersElement = $("fingers");
 const crosshairsIcon = $("crosshairs-icon")
 const breweryList = $("brewery-list");
 const formattedLocation = $("formatted-location");
@@ -97,7 +98,13 @@ const updateElement = (data: any) => {
     }
     let lat = data[0].latitude;
     let long = data[0].longitude;
-    map = L.map('map');
+    map = L.map('map', {
+        dragging: !L.Browser.mobile,
+        tap: !L.Browser.mobile
+    });
+    if (L.Browser.mobile) {
+        fingersElement.style.display = "block";
+    }
     map.addEventListener("load", onMapLoad);
     map.setView([lat, long], 13);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {

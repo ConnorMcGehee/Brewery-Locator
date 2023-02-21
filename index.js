@@ -9554,6 +9554,7 @@
   if (!(input instanceof HTMLInputElement)) {
     throw new Error("Not an instance of HTMLInputElement.");
   }
+  var fingersElement = $("fingers");
   var crosshairsIcon = $("crosshairs-icon");
   var breweryList = $("brewery-list");
   var formattedLocation = $("formatted-location");
@@ -9612,7 +9613,13 @@
     }
     let lat = data[0].latitude;
     let long = data[0].longitude;
-    map = import_leaflet.default.map("map");
+    map = import_leaflet.default.map("map", {
+      dragging: !import_leaflet.default.Browser.mobile,
+      tap: !import_leaflet.default.Browser.mobile
+    });
+    if (import_leaflet.default.Browser.mobile) {
+      fingersElement.style.display = "block";
+    }
     map.addEventListener("load", onMapLoad);
     map.setView([lat, long], 13);
     import_leaflet.default.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
